@@ -1,0 +1,373 @@
+
+.awakening-layer[hidden],
+.awakening-overlay[hidden],
+#awakening-layer[hidden] {
+  display: none !important;
+}
+
+/* 拍⑥：梦醒定案照见层 · 皇家宣纸折页古册样式 v4 */
+.awakening-layer,
+.awakening-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: radial-gradient(circle at 50% 40%, rgba(26, 18, 12, 0.7) 0%, rgba(10, 8, 6, 0.94) 100%), url("./assets/images/bg_imperial_palace.jpg") center/cover no-repeat;
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: clamp(10px, 3vw, 24px);
+  overflow-y: auto;
+}
+
+.ledger-book-wrap {
+  position: relative;
+  width: 100%;
+  max-width: 620px;
+  max-height: 94vh;
+  overflow-y: auto;
+  background: #fbf5e6;
+  background-image: radial-gradient(circle at 50% 30%, #fffcf5 0%, #f6ebd5 100%);
+  color: #1a1a18;
+  padding: 26px clamp(16px, 4vw, 28px);
+  border-radius: 12px;
+  border: 4px double #c49c48;
+  outline: 6px solid #2d1810;
+  box-shadow: 0 25px 70px rgba(0,0,0,0.95), inset 0 0 50px rgba(212, 175, 55, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: scrollUnfurl 0.6s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+@keyframes scrollUnfurl {
+  0% { transform: scale(0.9) translateY(20px); opacity: 0; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.ledger-header {
+  text-align: center;
+  border-bottom: 2px solid rgba(168, 56, 43, 0.35);
+  padding-bottom: 12px;
+  position: relative;
+}
+
+.imperial-mini-seal {
+  display: inline-block;
+  background: #a8382b;
+  color: #ffffff;
+  font-family: var(--font-kai);
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  margin-bottom: 6px;
+  box-shadow: 0 2px 6px rgba(168, 56, 43, 0.4);
+}
+
+.ledger-header h3 {
+  font-size: clamp(18px, 4.5vw, 22px);
+  letter-spacing: 3px;
+  color: #1a1a18;
+  font-family: var(--font-kai);
+  font-weight: bold;
+  margin: 2px 0;
+}
+
+.ledger-header p {
+  font-size: 12px;
+  color: #8c4a3e;
+  margin-top: 4px;
+  letter-spacing: 2px;
+  font-family: var(--font-serif);
+}
+
+.ledger-records {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 6px 0;
+}
+
+.ledger-row {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(196, 156, 72, 0.3);
+  border-left: 5px solid #a8382b;
+  border-radius: 4px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+
+.ledger-row-title {
+  font-weight: bold;
+  font-size: 14px;
+  color: #1a1a18;
+  font-family: var(--font-kai);
+}
+
+.ledger-row-desc {
+  color: #8a2419;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-serif);
+}
+
+.ledger-subject {
+  font-size: 12px;
+  color: #665544;
+  line-height: 1.4;
+  transition: all 0.5s ease;
+  font-family: var(--font-kai);
+}
+
+.ledger-subject.replaced {
+  color: #a8382b !important;
+  font-weight: bold;
+  background: rgba(168, 56, 43, 0.08);
+  padding: 2px 8px;
+  border-radius: 3px;
+  display: inline-block;
+  animation: bloodBleed 0.5s ease-out;
+}
+
+@keyframes bloodBleed {
+  0% { transform: scale(1.1); filter: brightness(1.8); }
+  100% { transform: scale(1); filter: brightness(1); }
+}
+
+.summary-quote {
+  font-size: 13px;
+  font-family: var(--font-kai);
+  color: #4a3828;
+  line-height: 1.7;
+  padding: 12px 16px;
+  background: rgba(168, 56, 43, 0.06);
+  border: 1px dashed rgba(168, 56, 43, 0.4);
+  border-radius: 6px;
+  text-align: center;
+}
+
+.seal-press-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 4px 0;
+}
+
+.seal-stamp-target {
+  position: relative;
+  background: linear-gradient(135deg, #a8382b 0%, #7d1c12 100%);
+  border: 2px solid #e5b95c;
+  color: #ffffff;
+  font-family: var(--font-kai);
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  padding: 12px 28px;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(168, 56, 43, 0.45), inset 0 0 10px rgba(229, 185, 92, 0.25);
+  touch-action: manipulation;
+  overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.seal-stamp-target:active {
+  transform: scale(0.97);
+  box-shadow: 0 2px 8px rgba(168, 56, 43, 0.6);
+}
+
+.seal-progress-ring {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: 6px;
+}
+
+.seal-instruction {
+  font-size: 11px;
+  color: #887766;
+  font-family: var(--font-serif);
+}
+
+.awakening-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.action-save-card {
+  background: #a8382b !important;
+  color: #ffffff !important;
+  padding: 10px 22px !important;
+  border-radius: 6px !important;
+  border: 1px solid #e5b95c !important;
+  font-family: var(--font-kai) !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 12px rgba(168, 56, 43, 0.4) !important;
+}
+
+.action-replay {
+  background: #2b3a2f !important;
+  color: #ffffff !important;
+  padding: 10px 22px !important;
+  border-radius: 6px !important;
+  border: 1px solid #3d604b !important;
+  font-family: var(--font-kai) !important;
+  font-size: 14px !important;
+  cursor: pointer !important;
+}
+
+
+
+
+
+
+
+
+
+/* 藏书票全景古风宣纸折页弹窗样式 v5 (100% 杜绝空白) */
+.moment-card-modal {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 80 !important;
+  background: radial-gradient(circle at 50% 50%, rgba(20, 16, 12, 0.88) 0%, rgba(8, 6, 4, 0.98) 100%) !important;
+  backdrop-filter: blur(16px) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: clamp(10px, 3vw, 20px) !important;
+  overflow-y: auto !important;
+}
+
+.moment-card-modal[hidden] {
+  display: none !important;
+}
+
+.moment-card-box {
+  position: relative;
+  background: #fbf5e6;
+  border: 4px double #c49c48;
+  outline: 6px solid #2d1810;
+  border-radius: 12px;
+  padding: clamp(14px, 3vw, 24px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 480px;
+  width: 100%;
+  box-shadow: 0 24px 70px rgba(0,0,0,0.95), inset 0 0 40px rgba(196, 156, 72, 0.15);
+  animation: modalPop 0.35s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+.moment-plate-card {
+  width: 100%;
+  background: #f8f3e8;
+  border: 2px solid #c49c48;
+  border-radius: 8px;
+  padding: 16px 18px;
+  box-shadow: inset 0 0 25px rgba(196, 156, 72, 0.12), 0 4px 18px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.moment-plate-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  border-bottom: 2px solid rgba(168, 56, 43, 0.35);
+  padding-bottom: 8px;
+}
+
+.moment-plate-title h3 {
+  color: #1a1a18;
+  font-family: var(--font-song);
+  font-size: 22px;
+  margin: 0;
+  letter-spacing: 2px;
+}
+
+.moment-plate-title small {
+  color: #776655;
+  font-family: var(--font-kai);
+  font-size: 11px;
+}
+
+.moment-plate-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+
+.moment-seal-block {
+  background: #a8382b;
+  color: #ffffff;
+  font-family: var(--font-kai);
+  font-weight: bold;
+  font-size: 13px;
+  padding: 3px 8px;
+  border-radius: 3px;
+  letter-spacing: 1px;
+}
+
+.moment-rank-tag {
+  color: #a8382b;
+  border: 1px solid #a8382b;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-family: var(--font-kai);
+  border-radius: 2px;
+}
+
+.moment-plate-records {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(196, 156, 72, 0.3);
+  border-radius: 6px;
+  padding: 10px 12px;
+}
+
+.moment-rec-item {
+  font-size: 12px;
+  font-family: var(--font-song);
+  color: #222;
+  line-height: 1.4;
+}
+
+.moment-rec-item strong {
+  color: #a8382b;
+  font-family: var(--font-kai);
+}
+
+.moment-plate-quote {
+  background: rgba(168, 56, 43, 0.06);
+  border: 1px solid rgba(168, 56, 43, 0.25);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-family: var(--font-kai);
+  font-style: italic;
+  font-size: 12px;
+  color: #2d1810;
+  line-height: 1.5;
+}
+
+.moment-plate-footer {
+  text-align: center;
+  font-family: var(--font-song);
+  font-size: 11px;
+  color: #8a2419;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-top: 2px;
+}

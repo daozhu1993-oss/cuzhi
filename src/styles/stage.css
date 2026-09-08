@@ -1,0 +1,620 @@
+/* 2.5D 水墨工笔自适应舞台与立绘多角色分布式排版 v6 */
+.stage-shell {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  background-color: #121310;
+}
+
+.stage-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  transition: opacity 0.8s ease, filter 0.8s ease, transform 10s ease-out;
+  transform: scale(1.03);
+}
+
+.stage-haze {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  background: linear-gradient(to top, rgba(18, 19, 16, 0.96) 0%, rgba(18, 19, 16, 0.5) 50%, transparent 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.scene-ruins { background-image: url("./assets/images/bg_ruins_cottage.jpg"); }
+.scene-temple { background-image: url("./assets/images/bg_temple_night.jpg"); }
+.scene-cottage { background-image: url("./assets/images/bg_cottage_interior.jpg"); }
+.scene-well { background-image: url("./assets/images/bg_desolate_well.jpg"); }
+.scene-court, .scene-palace { background-image: url("./assets/images/bg_imperial_palace.jpg"); }
+
+.stage-actors {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.actor {
+  position: absolute;
+  bottom: clamp(130px, 22vh, 190px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.6s cubic-bezier(0.2, 0.8, 0.3, 1);
+  filter: drop-shadow(0 8px 18px rgba(0,0,0,0.85));
+}
+
+/* 消除重叠：多角色分布式横向站位 */
+#actor-chengming {
+  left: clamp(10%, 18vw, 24%);
+  z-index: 6;
+}
+
+#actor-wife {
+  left: clamp(38%, 46vw, 52%);
+  z-index: 5;
+}
+
+#actor-son {
+  left: clamp(66%, 72vw, 78%);
+  z-index: 7;
+}
+
+#actor-officer {
+  left: clamp(62%, 70vw, 76%);
+  z-index: 8;
+}
+
+.actor-label {
+  margin-top: 4px;
+  font-size: 11px;
+  font-family: var(--font-kai);
+  color: var(--paper-cream);
+  background: rgba(18, 19, 16, 0.88);
+  padding: 2px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(196, 156, 72, 0.4);
+  letter-spacing: 1.5px;
+  backdrop-filter: blur(4px);
+  white-space: nowrap;
+}
+
+/* 自然立绘圆角镜框，不再是僵硬大方块 */
+.actor-sprite {
+  width: clamp(80px, 22vw, 115px);
+  height: clamp(130px, 30vh, 175px);
+  background-size: cover;
+  background-repeat: no-repeat;
+  position: relative;
+  border-radius: 50px 50px 10px 10px;
+  border: 2px solid rgba(196, 156, 72, 0.45);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.8), inset 0 0 15px rgba(0,0,0,0.2);
+  background-color: rgba(242, 236, 224, 0.15);
+}
+
+.chengming-sprite {
+  background-image: url("./assets/images/actor_cheng_ming.jpg");
+  background-position: center 8%;
+}
+
+.wife-sprite {
+  background-image: url("./assets/images/actor_wife_woman.jpg");
+  background-position: center 8%;
+}
+
+.officer-sprite {
+  background-image: url("./assets/images/actor_bailiff_officer.jpg");
+  background-position: center 10%;
+}
+
+.son-sprite {
+  width: clamp(68px, 18vw, 95px);
+  height: clamp(100px, 24vh, 140px);
+  background-image: url("./assets/images/actor_son_child.jpg");
+  background-position: center 8%;
+}
+
+/* 道具摆放位置 */
+.stage-prop {
+  position: absolute;
+  bottom: clamp(130px, 22vh, 190px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 6;
+}
+
+#prop-pot {
+  left: clamp(4%, 7vw, 10%);
+  bottom: clamp(130px, 22vh, 190px);
+}
+
+#prop-well {
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: clamp(130px, 22vh, 190px);
+}
+
+.prop-pot .pot-sprite {
+  width: 65px;
+  height: 48px;
+  background: #3a2e22;
+  border-radius: 26px 26px 14px 14px;
+  border: 2px solid #1a150f;
+  box-shadow: inset 0 -5px 12px rgba(0,0,0,0.8), 0 6px 14px rgba(0,0,0,0.7);
+}
+
+.prop-pot.is-dead .pot-sprite {
+  border-color: #8c281d;
+  transform: rotate(-15deg);
+}
+
+.prop-pot.can-open {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.prop-pot .pot-lid {
+  width: 68px;
+  height: 16px;
+  background: #4a3c2e;
+  border-radius: 16px 16px 4px 4px;
+  border: 2px solid #201811;
+  position: absolute;
+  top: -10px;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
+  box-shadow: 0 -2px 6px rgba(0,0,0,0.6);
+}
+
+.prop-pot.is-opened .pot-lid {
+  transform: translateY(-24px) rotate(-18deg);
+  opacity: 0.85;
+}
+
+.pot-light-beam {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 45px;
+  background: radial-gradient(ellipse at center top, rgba(229, 185, 92, 0.8) 0%, rgba(229, 185, 92, 0.1) 70%, transparent 100%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.prop-pot.is-opened .pot-light-beam {
+  opacity: 1;
+}
+
+.prop-well .well-sprite {
+  width: 120px;
+  height: 75px;
+  background: #252d33;
+  border-radius: 8px;
+  border: 3px solid #12171b;
+  box-shadow: inset 0 0 22px #080a0d, 0 8px 20px rgba(0,0,0,0.9);
+  position: relative;
+}
+
+.wet-shoe {
+  position: absolute;
+  bottom: -4px;
+  left: 14px;
+  width: 22px;
+  height: 11px;
+  background: #3e4a42;
+  border-radius: 5px 9px 3px 3px;
+  box-shadow: 0 0 8px rgba(62, 74, 66, 0.8);
+}
+
+.wet-shoe.interactive {
+  cursor: pointer;
+  pointer-events: auto;
+  animation: pulseShoe 1.6s infinite ease-in-out;
+  box-shadow: 0 0 12px rgba(196, 156, 72, 0.9);
+}
+
+@keyframes pulseShoe {
+  0%, 100% { transform: scale(1); filter: brightness(1); }
+  50% { transform: scale(1.2); filter: brightness(1.5); }
+}
+
+/* 叙事面板（Bottom Sheet） */
+.narrative-panel {
+  position: fixed;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 94%;
+  max-width: 620px;
+  background: #f4eee2;
+  color: #1a1a18;
+  padding: 14px 18px;
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.85), inset 0 0 0 1px rgba(168, 56, 43, 0.4);
+  z-index: 1000 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  visibility: visible;
+  opacity: 1;
+}
+
+.beat2-recovery-btn {
+  position: fixed;
+  right: 18px;
+  bottom: 22px;
+  z-index: 1001;
+  padding: 11px 16px;
+  border: 1px solid #bc8a3d;
+  border-radius: 6px;
+  background: #201b15;
+  color: #f4d995;
+  font: 600 14px var(--font-serif);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+/* 捕虫结算卡必须脱离整屏游戏文档流，否则 file:// 预览会把它裁到视口外。 */
+.inspect-card-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+  overflow-y: auto;
+  background: rgba(10, 9, 7, 0.82);
+  backdrop-filter: blur(8px);
+}
+
+.inspect-card-box {
+  width: min(92vw, 420px);
+  max-height: calc(100dvh - 36px);
+  overflow-y: auto;
+  padding: 22px;
+  border: 2px solid #c49c48;
+  border-radius: 12px;
+  background: #f4eee2;
+  color: #1a1a18;
+  text-align: center;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.9);
+}
+
+.inspect-tag,
+.inspect-title {
+  color: #8a2419;
+  font-family: var(--font-kai);
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.inspect-art-wrap {
+  position: relative;
+  margin: 12px auto;
+}
+
+.inspect-gongbi-img {
+  display: block;
+  width: min(58vw, 220px);
+  max-height: 38vh;
+  margin: 0 auto;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+.inspect-desc {
+  margin: 10px 0 14px;
+  color: #54483b;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.inspect-confirm-btn {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1px solid #c49c48;
+  border-radius: 6px;
+  background: #8a2419;
+  color: #fff8e7;
+  font: 700 14px var(--font-kai);
+  cursor: pointer;
+}
+
+.narrative-panel[hidden] {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.dialog-kicker {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--seal-red);
+  font-family: var(--font-kai);
+  font-weight: bold;
+}
+
+.dialog-speaker {
+  font-size: 15px;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  color: var(--ink-black);
+}
+
+.dialog-content {
+  font-size: clamp(13px, 3.6vw, 15px);
+  line-height: 1.7;
+  color: #2b2b27;
+  min-height: 44px;
+  font-family: var(--font-serif);
+}
+
+.dialog-input-wrap {
+  display: flex;
+  gap: 6px;
+  margin: 4px 0;
+}
+
+.dialog-input-wrap input {
+  flex: 1;
+  background: #fff;
+  border: 1px solid var(--seal-red);
+  padding: 6px 10px;
+  font-family: var(--font-serif);
+  font-size: 13px;
+  border-radius: 4px;
+  outline: none;
+}
+
+.feed-bowl-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 6px 0;
+  padding: 8px;
+  background: rgba(26, 26, 24, 0.05);
+  border-radius: 6px;
+}
+
+.feed-click-btn {
+  background: var(--gold-accent);
+  color: #fff;
+  border: none;
+  padding: 6px 16px;
+  border-radius: 4px;
+  font-family: var(--font-kai);
+  font-size: 13px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.feed-click-btn:active {
+  transform: scale(0.96);
+  background: var(--gold-bright);
+}
+
+.feed-count-tip {
+  font-size: 12px;
+  color: var(--ink-faint);
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.action-btn {
+  background: var(--ink-black);
+  color: var(--paper-cream);
+  border: none;
+  padding: 6px 18px;
+  font-family: var(--font-serif);
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+  min-height: 36px;
+  touch-action: manipulation;
+}
+
+.action-btn:active {
+  background: var(--seal-red);
+}
+
+.catch-layer[hidden], #catch-layer[hidden] {
+  display: none !important;
+}
+
+.catch-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  background: rgba(18, 19, 16, 0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.catch-hint {
+  font-size: clamp(13px, 3.8vw, 16px);
+  letter-spacing: 2px;
+  color: var(--gold-bright);
+  margin-bottom: 12px;
+  text-shadow: 0 0 8px rgba(229, 185, 92, 0.5);
+  font-family: var(--font-kai);
+  text-align: center;
+}
+
+.catch-field {
+  position: relative;
+  width: min(92vw, 560px);
+  height: min(48vh, 300px);
+  border: 2px dashed rgba(196, 156, 72, 0.4);
+  border-radius: 10px;
+  background: radial-gradient(circle, #222b20 0%, #131911 80%, #0c100c 100%);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.grass-spot {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: rgba(196, 156, 72, 0.4);
+}
+
+/* 水墨木杖飞溅特效 */
+.ink-splatter-fx {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 42;
+  background-image: 
+    radial-gradient(circle at 45% 55%, rgba(18, 14, 10, 0.85) 0%, rgba(18, 14, 10, 0.4) 35%, transparent 65%),
+    radial-gradient(circle at 60% 40%, rgba(168, 56, 43, 0.6) 0%, transparent 40%);
+  animation: inkExplode 0.6s ease-out forwards;
+}
+
+@keyframes inkExplode {
+  0% { transform: scale(0.6); opacity: 0; }
+  30% { transform: scale(1.1); opacity: 0.9; }
+  100% { transform: scale(1.3); opacity: 0; }
+}
+
+/* 粟粒落入陶盆抛物线动效 */
+.millet-grain-drop {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background: #f7d057;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #f7d057;
+  pointer-events: none;
+  animation: milletFall 0.6s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes milletFall {
+  0% { transform: translate(-50%, -20px) scale(0.5); opacity: 0; }
+  50% { transform: translate(-50%, 15px) scale(1.2); opacity: 1; }
+  75% { transform: translate(-50%, 8px) scale(1); }
+  100% { transform: translate(-50%, 18px) scale(0.8); opacity: 0; }
+}
+
+/* 神虫验视特写模态框 */
+.inspection-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 65;
+  background: rgba(12, 10, 8, 0.94);
+  backdrop-filter: blur(14px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+}
+
+.inspection-paper-box {
+  position: relative;
+  width: 100%;
+  max-width: 460px;
+  background: #fbf6ec;
+  border: 3px solid #c49c48;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.9), inset 0 0 40px rgba(210, 195, 170, 0.5);
+  padding: 22px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: modalPop 0.4s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+@keyframes modalPop {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.inspection-header h3 {
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: #1a1a18;
+  font-family: var(--font-kai);
+  font-weight: bold;
+  margin: 4px 0;
+}
+
+.inspection-header p {
+  font-size: 12px;
+  color: #776655;
+  font-family: var(--font-serif);
+}
+
+.inspection-visual-frame {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  margin: 14px 0;
+  border-radius: 50%;
+  border: 3px solid #d4af37;
+  box-shadow: 0 0 25px rgba(212, 175, 55, 0.6);
+  overflow: hidden;
+}
+
+.inspection-cricket-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.inspection-aura-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: inset 0 0 15px rgba(229, 185, 92, 0.8);
+  pointer-events: none;
+}
+
+.inspection-stats-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 4px;
+}
+
+.stat-badge {
+  font-size: 11px;
+  color: #554433;
+  background: rgba(196, 156, 72, 0.15);
+  border: 1px solid rgba(196, 156, 72, 0.4);
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-family: var(--font-serif);
+}
