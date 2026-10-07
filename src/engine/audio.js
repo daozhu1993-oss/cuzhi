@@ -479,6 +479,84 @@ export class SoundEngine {
     modulator.stop(now + duration);
   }
 
+  playSpatialChirp(pan = 0, duration = 0.22, volume = 0.35) {
+    if (!this.enabled) return;
+    this.resume();
+    if (!this.ctx) return;
+
+    const now = this.ctx.currentTime;
+    const carrier = this.ctx.createOscillator();
+    const modulator = this.ctx.createOscillator();
+    const modGain = this.ctx.createGain();
+    const masterGain = this.ctx.createGain();
+
+    carrier.type = "sine";
+    carrier.frequency.setValueAtTime(4500, now);
+    carrier.frequency.exponentialRampToValueAtTime(4100, now + duration);
+
+    modulator.type = "triangle";
+    modulator.frequency.setValueAtTime(60, now);
+
+    modGain.gain.setValueAtTime(1100, now);
+    modulator.connect(modGain);
+    modGain.connect(carrier.frequency);
+
+    masterGain.gain.setValueAtTime(0, now);
+    masterGain.gain.linearRampToValueAtTime(volume, now + 0.02);
+    masterGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+    carrier.connect(masterGain);
+
+    if (this.ctx.createStereoPanner) {
+      try {
+        const panner = this.ctx.createStereoPanner();
+        panner.pan.setValueAtTime(Math.max(-1, Math.min(1, pan)), now);
+        masterGain.connect(panner);
+        panner.connect(this.ctx.destination);
+      } catch (e) {
+        masterGain.connect(this.ctx.destination);
+      }
+    } else {
+      masterGain.connect(this.ctx.destination);
+    }
+
+    carrier.start(now);
+    modulator.start(now);
+    carrier.stop(now + duration);
+    modulator.stop(now + duration);
+  }
+
+  playPrologueOpening() {
+    this.resume();
+    if (!this.enabled || !this.ctx) return;
+    try {
+      this.synthesizeBianzhong(523.25, 4.5, 0.4);
+      setTimeout(() => this.synthesizeGuqin(261.63, 3.5, 329.63, true, 0.35), 250);
+      setTimeout(() => this.synthesizeGuqin(392.00, 3.0, null, false, 0.3), 600);
+      this.playPaperFlip();
+    } catch (e) {
+      console.warn("Prologue audio warning:", e);
+    }
+  }
+
+  playMilletDrop() {
+    this.resume();
+    if (!this.enabled || !this.ctx) return;
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(1400 + Math.random() * 200, now);
+    osc.frequency.exponentialRampToValueAtTime(800, now + 0.12);
+    gain.gain.setValueAtTime(0.28, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+    osc.connect(gain);
+    gain.connect(this.masterGain || this.ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.12);
+    this.vibrate(15);
+  }
+
   playBurstChirps(count = 3) {
     if (!this.enabled) return;
     for (let i = 0; i < count; i++) {

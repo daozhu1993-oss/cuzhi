@@ -414,3 +414,234 @@ html, body {
   0% { opacity: 0; transform: translateY(-10px); }
   100% { opacity: 1; transform: translateY(0); }
 }
+
+/* 经典古风「展卷入画」大幕 */
+.prologue-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(circle at 50% 35%, #241f18 0%, #0d0b09 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.prologue-gate.unfurling {
+  opacity: 0;
+  transform: scale(1.05);
+  pointer-events: none;
+}
+
+.prologue-card {
+  width: min(92vw, 480px);
+  max-height: 92vh;
+  background: #f7f1e3;
+  background-image: 
+    linear-gradient(rgba(247, 241, 227, 0.95), rgba(247, 241, 227, 0.95)),
+    radial-gradient(ellipse at 50% 50%, #fff 0%, #e8dcbf 100%);
+  border: 4px double #8a2419;
+  outline: 6px solid #1a1612;
+  border-radius: 8px;
+  padding: 36px 28px;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.95), inset 0 0 40px rgba(196, 156, 72, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  animation: prologueAppear 0.9s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+@keyframes prologueAppear {
+  0% { opacity: 0; transform: scale(0.92) translateY(24px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.prologue-seal-top {
+  display: inline-block;
+  background: #8a2419;
+  color: #fff;
+  font-family: var(--font-kai);
+  font-size: 12px;
+  letter-spacing: 3px;
+  padding: 3px 12px;
+  border-radius: 3px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(138, 36, 25, 0.4);
+}
+
+.prologue-title {
+  font-family: var(--font-kai);
+  font-size: clamp(26px, 6vw, 36px);
+  letter-spacing: 6px;
+  color: #1a1a18;
+  margin: 0;
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.prologue-subtitle {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  letter-spacing: 4px;
+  color: #8a2419;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.prologue-author {
+  font-size: 12px;
+  color: #666;
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+
+.prologue-quote {
+  margin: 22px 0 18px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  border-left: 3px solid #8a2419;
+  border-right: 3px solid #8a2419;
+}
+
+.prologue-quote .quote-line {
+  font-family: var(--font-kai);
+  font-size: clamp(14px, 3.8vw, 16px);
+  color: #1a1a18;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+}
+
+.prologue-quote .quote-sub {
+  font-size: 12px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.prologue-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #7c7a72;
+  margin-bottom: 22px;
+  letter-spacing: 1px;
+}
+
+.prologue-enter-btn {
+  padding: 13px 34px;
+  font-family: var(--font-kai);
+  font-size: 17px;
+  letter-spacing: 4px;
+  font-weight: bold;
+  color: #fbf5e6;
+  background: #8a2419;
+  border: 2px solid #5a140d;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(138, 36, 25, 0.45);
+  transition: all 0.25s ease;
+}
+
+.prologue-enter-btn:hover {
+  transform: scale(1.04);
+  background: #a8382b;
+  box-shadow: 0 8px 26px rgba(138, 36, 25, 0.6);
+}
+
+.prologue-enter-btn:active {
+  transform: scale(0.97);
+}
+
+.prologue-badges {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.prologue-badges .badge-tag {
+  font-size: 10px;
+  color: #8c7653;
+  border: 1px solid rgba(196, 156, 72, 0.4);
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* 大屏画卷影院居中视口 */
+@media (min-width: 1024px) {
+  .app-shell {
+    max-width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0 0 120px rgba(0,0,0,0.95), 0 0 0 1px rgba(230, 223, 206, 0.15);
+  }
+}
+
+/* Safe Area 手机端适配 */
+.hud-top {
+  padding-top: max(6px, env(safe-area-inset-top));
+}
+.narrative-panel {
+  bottom: max(8px, env(safe-area-inset-bottom));
+}
+
+/* 快捷跳折节点响应 */
+.beat-node {
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.beat-node:hover {
+  transform: scale(1.18);
+  color: var(--gold-bright);
+}
+
+/* 喂粟动画特效 */
+.millet-grain-fx {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e5b95c;
+  box-shadow: 0 0 10px #e5b95c;
+  pointer-events: none;
+  z-index: 100;
+  animation: milletDrop 0.5s forwards cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+@keyframes milletDrop {
+  0% { transform: translateY(-30px) scale(0.5); opacity: 0; }
+  40% { opacity: 1; }
+  100% { transform: translateY(15px) scale(1.2); opacity: 0; }
+}
+
+/* 全局雅致提示框 Toast */
+.cuzhi-toast {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: #8a2419;
+  color: #fff;
+  font-family: var(--font-kai);
+  font-size: 13px;
+  letter-spacing: 2px;
+  padding: 8px 18px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s ease;
+}
+.cuzhi-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+

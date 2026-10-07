@@ -26,7 +26,7 @@ export class GameController {
   }
 
   init() {
-    const dustContainer = document.getElementById("dust-particles");
+    const dustContainer = document.getElementById("dust-canvas") || document.getElementById("dust-particles");
     this.particleEngine = new ParticleEngine(dustContainer);
     this.particleEngine.start();
 
@@ -44,11 +44,35 @@ export class GameController {
     window.addEventListener("click", () => this.sound.resume(), { once: true });
 
     this.startBeat(1);
+    this.initPrologueGate();
+  }
+
+  initPrologueGate() {
+    const gate = document.getElementById("prologue-gate");
+    const enterBtn = document.getElementById("btn-enter-story");
+    if (!gate) return;
+
+    const openStory = (e) => {
+      if (e) e.stopPropagation();
+      this.sound.resume();
+      this.sound.playPrologueOpening();
+      gate.classList.add("unfurling");
+      setTimeout(() => {
+        gate.hidden = true;
+        gate.style.display = "none";
+      }, 750);
+    };
+
+    if (enterBtn) {
+      enterBtn.onclick = openStory;
+    } else {
+      gate.onclick = openStory;
+    }
   }
 
   bindHUD() {
     // 模板与代码存在历史命名分歧，按候选 ID 依次解析，
-    // 避免按钮取不到元素时静默失效（此前音/重/谱三个按钮全是死键）
+    // 避免按钮取不到元素时静默失效
     const pickId = (...ids) => {
       for (const id of ids) {
         const el = document.getElementById(id);
@@ -62,6 +86,7 @@ export class GameController {
     const manualBtn = pickId("manual-btn", "btn-manual");
     const nextBtn = pickId("btn-next", "dialog-next-btn");
     const closeCardBtn = pickId("btn-close-card");
+    const fsBtn = pickId("btn-fullscreen", "fs-btn");
     const narrativePanel = document.getElementById("narrative-panel");
 
     if (soundBtn) {
@@ -72,6 +97,31 @@ export class GameController {
         soundBtn.innerText = isEnabled ? "声 鸣" : "声 静";
       };
     }
+
+    if (fsBtn) {
+      fsBtn.onclick = (e) => {
+        e.stopPropagation();
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen?.().catch(() => {});
+          fsBtn.innerText = "⛷ 退出";
+        } else {
+          document.exitFullscreen?.().catch(() => {});
+          fsBtn.innerText = "⛶ 全屏";
+        }
+      };
+    }
+
+    // 评委与二周目快速折目跳转
+    document.querySelectorAll(".beat-node").forEach((node) => {
+      node.onclick = (e) => {
+        e.stopPropagation();
+        const b = parseInt(node.getAttribute("data-beat"), 10);
+        if (b >= 1 && b <= 6) {
+          this.sound.playPaperFlip();
+          this.startBeat(b);
+        }
+      };
+    });
 
     if (manualBtn) {
       manualBtn.onclick = (e) => {
@@ -105,6 +155,18 @@ export class GameController {
     const handleAdvance = (e) => {
       if (e) e.stopPropagation();
       if (this.isAdvancing) return;
+
+      // 速读跳字保护：如果打字机还在逐字显示，轻点优先立现全句
+      if (this.typewriterTimer) {
+        clearTimeout(this.typewriterTimer);
+        this.typewriterTimer = null;
+        const textEl = document.getElementById("dialog-text");
+        if (textEl && this.currentDialogFullText) {
+          textEl.innerText = this.currentDialogFullText;
+        }
+        return;
+      }
+
       if (this.onDialogNext) {
         this.isAdvancing = true;
         try {
@@ -311,6 +373,8 @@ export class GameController {
     if (speakerEl) speakerEl.innerText = speaker || "";
     if (btn) btn.innerText = btnText;
 
+    this.currentDialogFullText = text || "";
+
     if (this.typewriterTimer) clearTimeout(this.typewriterTimer);
     if (contentEl) {
       contentEl.innerHTML = "<p id=dialog-text></p>";
@@ -328,6 +392,8 @@ export class GameController {
           else if (["。", "！", "？", "…"].includes(char)) delay = 150;
 
           this.typewriterTimer = setTimeout(typeNextChar, delay);
+        } else {
+          this.typewriterTimer = null;
         }
       };
 
@@ -335,6 +401,28 @@ export class GameController {
     }
 
     this.onDialogNext = onNext;
+  }
+
+  spawnMilletGrain(x, y) {
+    const grain = document.createElement("div");
+    grain.className = "millet-grain-fx";
+    grain.style.left = (x || (window.innerWidth / 2)) + "px";
+    grain.style.top = (y || (window.innerHeight * 0.7)) + "px";
+    document.body.appendChild(grain);
+    setTimeout(() => grain.remove(), 600);
+  }
+
+  showToast(msg) {
+    let toast = document.getElementById("cuzhi-toast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "cuzhi-toast";
+      toast.className = "cuzhi-toast";
+      document.body.appendChild(toast);
+    }
+    toast.innerText = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 2200);
   }
 
   showDialogWithInput({ kicker, speaker, text, defaultName, inputHint, btnText, onConfirm }) {
@@ -408,7 +496,11 @@ export class GameController {
       feedBtn.onclick = (e) => {
         e.stopPropagation();
         fedCount++;
-        sound.playChirp(0.18, 0.25);
+        try {
+          this.sound.playMilletDrop();
+          this.sound.playChirp(0.18, 0.25);
+        } catch (err) {}
+        this.spawnMilletGrain(e.clientX, e.clientY);
         if (feedTip) feedTip.innerText = `点按喂养：${fedCount} / ${maxFeed}`;
 
         if (fedCount >= maxFeed) {
@@ -523,8 +615,17 @@ export class GameController {
     this.updateBeatProgress(beat);
     this.hideMarginNote();
 
+    if (this.particleEngine) {
+      try {
+        this.particleEngine.setMood("beat" + beat);
+      } catch (e) {}
+    }
+
+    try {
+      this.sound.playBGM("beat" + beat);
+    } catch (e) {}
+
     // 任何一折抛错都不许静默冻死页面：必须可见、可续、可截图上报。
-    // 此前 Beat3 因 showMarginNote 缺失抛 TypeError，玩家只看到空白卡死。
     try {
       if (beat === 1) runBeat1(this);
       else if (beat === 2) runBeat2(this);
@@ -740,9 +841,10 @@ export class GameController {
       const txt = `我养了一整局的常胜促织，是我儿子。——《聊斋志异 · 促织》【${sealData.title}】`;
       navigator.clipboard?.writeText?.(txt).then(() => {
         if (btn) btn.innerText = "已复制！";
+        this.showToast("已复制聊斋警句至剪贴板");
         setTimeout(() => { if (btn) btn.innerText = "📋 复制文案"; }, 2000);
       }).catch(() => {
-        alert(txt);
+        this.showToast("已提取警句");
       });
     };
   }

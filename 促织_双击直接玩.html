@@ -4,6 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>促织 · 聊斋志异沉浸式互动书</title>
+    <meta name="description" content="蒲松龄《聊斋志异·促织》沉浸式互动书：水墨工笔画风、程序化古风声景物理建模、四阶斗虫绝杀与宣德官修家运藏书票。" />
+    <meta property="og:title" content="促织 · 聊斋志异沉浸式互动书" />
+    <meta property="og:description" content="天子一跬步，皆关民命。九岁小儿与促织之命，由此相缠。" />
+    <meta name="theme-color" content="#121310" />
     <style>
 /* 促织 · 全局移动端优先样式 v2 */
 :root {
@@ -421,6 +425,237 @@ html, body {
   0% { opacity: 0; transform: translateY(-10px); }
   100% { opacity: 1; transform: translateY(0); }
 }
+
+/* 经典古风「展卷入画」大幕 */
+.prologue-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: radial-gradient(circle at 50% 35%, #241f18 0%, #0d0b09 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1), transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.prologue-gate.unfurling {
+  opacity: 0;
+  transform: scale(1.05);
+  pointer-events: none;
+}
+
+.prologue-card {
+  width: min(92vw, 480px);
+  max-height: 92vh;
+  background: #f7f1e3;
+  background-image: 
+    linear-gradient(rgba(247, 241, 227, 0.95), rgba(247, 241, 227, 0.95)),
+    radial-gradient(ellipse at 50% 50%, #fff 0%, #e8dcbf 100%);
+  border: 4px double #8a2419;
+  outline: 6px solid #1a1612;
+  border-radius: 8px;
+  padding: 36px 28px;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.95), inset 0 0 40px rgba(196, 156, 72, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  animation: prologueAppear 0.9s cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+@keyframes prologueAppear {
+  0% { opacity: 0; transform: scale(0.92) translateY(24px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.prologue-seal-top {
+  display: inline-block;
+  background: #8a2419;
+  color: #fff;
+  font-family: var(--font-kai);
+  font-size: 12px;
+  letter-spacing: 3px;
+  padding: 3px 12px;
+  border-radius: 3px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 8px rgba(138, 36, 25, 0.4);
+}
+
+.prologue-title {
+  font-family: var(--font-kai);
+  font-size: clamp(26px, 6vw, 36px);
+  letter-spacing: 6px;
+  color: #1a1a18;
+  margin: 0;
+  font-weight: 800;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.prologue-subtitle {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  letter-spacing: 4px;
+  color: #8a2419;
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.prologue-author {
+  font-size: 12px;
+  color: #666;
+  letter-spacing: 2px;
+  margin-top: 4px;
+}
+
+.prologue-quote {
+  margin: 22px 0 18px;
+  padding: 14px 16px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  border-left: 3px solid #8a2419;
+  border-right: 3px solid #8a2419;
+}
+
+.prologue-quote .quote-line {
+  font-family: var(--font-kai);
+  font-size: clamp(14px, 3.8vw, 16px);
+  color: #1a1a18;
+  font-weight: bold;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+}
+
+.prologue-quote .quote-sub {
+  font-size: 12px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.prologue-hint {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #7c7a72;
+  margin-bottom: 22px;
+  letter-spacing: 1px;
+}
+
+.prologue-enter-btn {
+  padding: 13px 34px;
+  font-family: var(--font-kai);
+  font-size: 17px;
+  letter-spacing: 4px;
+  font-weight: bold;
+  color: #fbf5e6;
+  background: #8a2419;
+  border: 2px solid #5a140d;
+  border-radius: 6px;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(138, 36, 25, 0.45);
+  transition: all 0.25s ease;
+}
+
+.prologue-enter-btn:hover {
+  transform: scale(1.04);
+  background: #a8382b;
+  box-shadow: 0 8px 26px rgba(138, 36, 25, 0.6);
+}
+
+.prologue-enter-btn:active {
+  transform: scale(0.97);
+}
+
+.prologue-badges {
+  display: flex;
+  gap: 8px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.prologue-badges .badge-tag {
+  font-size: 10px;
+  color: #8c7653;
+  border: 1px solid rgba(196, 156, 72, 0.4);
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+/* 大屏画卷影院居中视口 */
+@media (min-width: 1024px) {
+  .app-shell {
+    max-width: 1200px;
+    margin: 0 auto;
+    box-shadow: 0 0 120px rgba(0,0,0,0.95), 0 0 0 1px rgba(230, 223, 206, 0.15);
+  }
+}
+
+/* Safe Area 手机端适配 */
+.hud-top {
+  padding-top: max(6px, env(safe-area-inset-top));
+}
+.narrative-panel {
+  bottom: max(8px, env(safe-area-inset-bottom));
+}
+
+/* 快捷跳折节点响应 */
+.beat-node {
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+.beat-node:hover {
+  transform: scale(1.18);
+  color: var(--gold-bright);
+}
+
+/* 喂粟动画特效 */
+.millet-grain-fx {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e5b95c;
+  box-shadow: 0 0 10px #e5b95c;
+  pointer-events: none;
+  z-index: 100;
+  animation: milletDrop 0.5s forwards cubic-bezier(0.2, 0.8, 0.3, 1);
+}
+
+@keyframes milletDrop {
+  0% { transform: translateY(-30px) scale(0.5); opacity: 0; }
+  40% { opacity: 1; }
+  100% { transform: translateY(15px) scale(1.2); opacity: 0; }
+}
+
+/* 全局雅致提示框 Toast */
+.cuzhi-toast {
+  position: fixed;
+  top: 60px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: #8a2419;
+  color: #fff;
+  font-family: var(--font-kai);
+  font-size: 13px;
+  letter-spacing: 2px;
+  padding: 8px 18px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+  z-index: 10000;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.35s ease;
+}
+.cuzhi-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
 
 /* 2.5D 水墨工笔自适应舞台与立绘多角色分布式排版 v6 */
 .stage-shell {
@@ -2246,6 +2481,32 @@ html, body {
     </style>
   </head>
   <body>
+    <!-- 经典古风「展卷入画」大幕 -->
+    <div class="prologue-gate" id="prologue-gate">
+      <div class="prologue-card">
+        <div class="prologue-seal-top">明 · 宣德三年</div>
+        <h1 class="prologue-title">聊 齋 志 異</h1>
+        <div class="prologue-subtitle">卷四 · 促 織</div>
+        <div class="prologue-author">清 · 蒲 松 齡 著</div>
+        <div class="prologue-quote">
+          <p class="quote-line">“天子一跬步，皆关民命。”</p>
+          <p class="quote-sub">宣德年间，华阴市井……九岁小儿与促织之命，由此相缠。</p>
+        </div>
+        <div class="prologue-hint">
+          <span class="headphone-icon">🎧</span>
+          <span>戴上耳机 · 沉浸水墨声画</span>
+        </div>
+        <button class="prologue-enter-btn" id="btn-enter-story" type="button">
+          【 展 卷 入 画 】
+        </button>
+        <div class="prologue-badges">
+          <span class="badge-tag">水墨工笔</span>
+          <span class="badge-tag">全声景物理建模</span>
+          <span class="badge-tag">沉浸互动志异</span>
+        </div>
+      </div>
+    </div>
+
     <div class="app-shell">
       <!-- 氛围环境背景层 -->
       <div class="ambient-layer" aria-hidden="true"></div>
@@ -2262,7 +2523,7 @@ html, body {
           </div>
         </div>
 
-                <div class="fortune-ledger">
+        <div class="fortune-ledger">
           <div class="ledger-label">
             <span class="status-tag" id="fortune-tag">大祸临头</span>
             <small id="fortune-desc">摊派催逼 · 杖责五十</small>
@@ -2273,6 +2534,7 @@ html, body {
         </div>
 
         <div class="hud-actions">
+          <button class="hud-btn" id="btn-fullscreen" title="全屏沉浸">⛶</button>
           <button class="hud-btn" id="btn-sandbox" title="家运沙盘">🏛️</button>
           <button class="hud-btn" id="btn-coliseum" title="鬼市百妖">👹</button>
           <button class="hud-btn" id="btn-manual" title="促织谱">谱</button>
@@ -2324,101 +2586,50 @@ html, body {
           <div class="catch-field" id="catch-field"></div>
         </div>
 
-        <!-- 拍⑤：移动端大拇指操控斗虫层 -->
+        <!-- 拍⑤：核心斗虫战斗层 -->
         <div class="battle-layer" id="battle-layer" hidden>
-          <div class="battle-header">
-            <div class="fighter-info player-info">
-              <div class="cricket-name" id="my-cricket-name">小梅花</div>
-              <div class="energy-bar">
-                <div class="energy-fill" id="my-energy-fill" style="width: 100%;"></div>
-              </div>
-              <div class="momentum-bar">
-                <div class="momentum-fill" id="my-momentum-fill" style="width: 0%;"></div>
-              </div>
+          <div class="battle-hud">
+            <div class="health-wrap player-health">
+              <span class="health-name" id="player-cricket-name">小梅花</span>
+              <div class="health-bar"><div class="health-fill" id="player-hp-fill" style="width: 100%;"></div></div>
             </div>
-
-            <div class="vs-badge-wrap">
-              <span class="vs-badge" id="battle-vs-badge">决 斗</span>
-              <span class="combo-badge" id="combo-badge">连击 x0</span>
-            </div>
-
-            <div class="fighter-info enemy-info">
-              <div class="cricket-name" id="enemy-cricket-name">蟹壳青</div>
-              <div class="energy-bar">
-                <div class="energy-fill" id="enemy-energy-fill" style="width: 100%;"></div>
-              </div>
-              <div class="enemy-status" id="enemy-status">昂首对峙</div>
+            <div class="health-wrap enemy-health">
+              <span class="health-name" id="enemy-cricket-name">蟹壳青</span>
+              <div class="health-bar"><div class="health-fill" id="enemy-hp-fill" style="width: 100%;"></div></div>
             </div>
           </div>
-
-          <!-- 斗草盆微距对决特写 -->
           <div class="arena-bowl" id="arena-bowl">
-            <canvas id="battle-canvas" width="600" height="300"></canvas>
-            <div class="straw-brush" id="straw-brush"></div>
-            <div class="battle-fx" id="battle-fx"></div>
+            <canvas class="battle-canvas" id="battle-canvas"></canvas>
+            <div class="arena-shadow"></div>
           </div>
-
-          <!-- 提示栏与大拇指三大按键 -->
-          <div class="battle-hint-bar" id="battle-hint-bar">草丝引逗蓄势 · 察其前摇侧身避咬</div>
-
-          <div class="battle-controls" id="battle-controls">
-            <button class="battle-btn btn-tease" id="btn-tease" type="button">
-              <span class="key-hint">划屏/J</span><strong>草丝挑逗</strong><small>激怒蓄势</small>
-            </button>
-            <button class="battle-btn btn-parry" id="btn-parry" type="button">
-              <span class="key-hint">点屏/K</span><strong>侧身避咬</strong><small>破其锋芒</small>
-            </button>
-            <button class="battle-btn btn-strike" id="btn-strike" type="button">
-              <span class="key-hint">双击/L</span><strong>疾进直前</strong><small>乘胜绝杀</small>
-            </button>
+          <div class="battle-controls">
+            <button class="action-btn action-tease" id="btn-tease" type="button">茜草逗须</button>
+            <button class="action-btn action-dodge" id="btn-dodge" type="button">化劲闪避</button>
+            <button class="action-btn action-attack" id="btn-attack" type="button">振翅飞咬</button>
           </div>
         </div>
 
-                <!-- 拍⑥：梦醒定案照见层 · 皇家宣纸折页古册 -->
+        <!-- 拍⑥：梦醒定案照见层 -->
         <div class="awakening-layer" id="awakening-layer" hidden>
-          <div class="ledger-book-wrap" id="ledger-book-wrap">
+          <div class="ledger-book-wrap">
             <div class="ledger-header">
-              <span class="imperial-mini-seal">宣德御览 · 钦定</span>
-              <h3>【 宣 德 官 修 · 成 氏 家 运 簿 】</h3>
-              <p>以小民骨血 · 供天子一笑</p>
+              <span class="imperial-mini-seal">宣德三年 · 钦定大捷</span>
+              <h3>《 促 织 · 功 赏 簿 》</h3>
+              <p>以虫化神 · 恩荫百代 · 家运翻身录</p>
             </div>
-
-            <div class="ledger-records" id="ledger-records">
-              <div class="ledger-row">
-                <div class="ledger-row-title">❖ 首战 · 市井称雄 ── 胜【蟹壳青】</div>
-                <div class="ledger-row-desc">赏 一吊铜钱 · 解燃眉之急</div>
-                <div class="ledger-subject" id="subj-0">出战者：【小梅花】</div>
-              </div>
-              <div class="ledger-row">
-                <div class="ledger-row-title">❖ 次战 · 公堂释枷 ── 胜【县衙巨甲】</div>
-                <div class="ledger-row-desc">免除徭役 · 补邑庠生</div>
-                <div class="ledger-subject" id="subj-1">出战者：【小梅花】</div>
-              </div>
-              <div class="ledger-row">
-                <div class="ledger-row-title">❖ 三战 · 奇绝抚军 ── 胜【抚军巨雄鸡】</div>
-                <div class="ledger-row-desc">赐金百两 · 骏马雕鞍 · 驰表入宫</div>
-                <div class="ledger-subject" id="subj-2">出战者：【小梅花】</div>
-              </div>
-              <div class="ledger-row">
-                <div class="ledger-row-title">❖ 终战 · 龙颜承欢 ── 胜【御前金案】</div>
-                <div class="ledger-row-desc">富埒世家 · 恩荫子孙 · 飞升登仙</div>
-                <div class="ledger-subject" id="subj-3">出战者：【小梅花】</div>
-              </div>
-            </div>
-
-            <div class="ledger-summary" id="ledger-summary">
-              <div class="summary-quote">
-                “一人飞升，仙及鸡犬……独是成氏子以蠹化，羽化而登仙，何其怪也！”
-                <br><small style="color:#8c5a4e;">──《聊斋志异 · 促织》异史氏曰</small>
-              </div>
-            </div>
-            
+            <div class="ledger-records" id="ledger-records"></div>
+            <div class="ledger-summary" id="ledger-summary"></div>
             <div class="seal-press-area" id="seal-press-area">
-              <div class="seal-stamp-target" id="seal-stamp-target">
-                <span>【 🖐️ 点按 / 长按钤印定案 】</span>
-                <div class="seal-progress-ring" id="seal-progress-ring"></div>
+              <button class="seal-stamp-btn" id="btn-affix-seal" type="button">
+                <span class="stamp-core">御定</span>
+                <span class="stamp-tip">【 点击 / 长按 钤印定案 】</span>
+              </button>
+              <div class="seal-progress-ring">
+                <svg viewBox="0 0 100 100">
+                  <circle cx="50" cy="50" r="44" class="ring-bg"></circle>
+                  <circle cx="50" cy="50" r="44" class="ring-fill" id="seal-ring-fill"></circle>
+                </svg>
               </div>
-              <p class="seal-instruction">按住印泥一秒或轻点 · 浸润落印定格历史</p>
             </div>
 
             <div class="awakening-actions" id="awakening-actions" hidden>
@@ -2467,7 +2678,6 @@ html, body {
           <button class="hud-btn manual-close-btn" id="btn-close-manual" type="button">合上图谱</button>
         </div>
       </div>
-
     </div>
     <script>
 
@@ -2972,6 +3182,84 @@ class SoundEngine {
     modulator.stop(now + duration);
   }
 
+  playSpatialChirp(pan = 0, duration = 0.22, volume = 0.35) {
+    if (!this.enabled) return;
+    this.resume();
+    if (!this.ctx) return;
+
+    const now = this.ctx.currentTime;
+    const carrier = this.ctx.createOscillator();
+    const modulator = this.ctx.createOscillator();
+    const modGain = this.ctx.createGain();
+    const masterGain = this.ctx.createGain();
+
+    carrier.type = "sine";
+    carrier.frequency.setValueAtTime(4500, now);
+    carrier.frequency.exponentialRampToValueAtTime(4100, now + duration);
+
+    modulator.type = "triangle";
+    modulator.frequency.setValueAtTime(60, now);
+
+    modGain.gain.setValueAtTime(1100, now);
+    modulator.connect(modGain);
+    modGain.connect(carrier.frequency);
+
+    masterGain.gain.setValueAtTime(0, now);
+    masterGain.gain.linearRampToValueAtTime(volume, now + 0.02);
+    masterGain.gain.exponentialRampToValueAtTime(0.001, now + duration);
+
+    carrier.connect(masterGain);
+
+    if (this.ctx.createStereoPanner) {
+      try {
+        const panner = this.ctx.createStereoPanner();
+        panner.pan.setValueAtTime(Math.max(-1, Math.min(1, pan)), now);
+        masterGain.connect(panner);
+        panner.connect(this.ctx.destination);
+      } catch (e) {
+        masterGain.connect(this.ctx.destination);
+      }
+    } else {
+      masterGain.connect(this.ctx.destination);
+    }
+
+    carrier.start(now);
+    modulator.start(now);
+    carrier.stop(now + duration);
+    modulator.stop(now + duration);
+  }
+
+  playPrologueOpening() {
+    this.resume();
+    if (!this.enabled || !this.ctx) return;
+    try {
+      this.synthesizeBianzhong(523.25, 4.5, 0.4);
+      setTimeout(() => this.synthesizeGuqin(261.63, 3.5, 329.63, true, 0.35), 250);
+      setTimeout(() => this.synthesizeGuqin(392.00, 3.0, null, false, 0.3), 600);
+      this.playPaperFlip();
+    } catch (e) {
+      console.warn("Prologue audio warning:", e);
+    }
+  }
+
+  playMilletDrop() {
+    this.resume();
+    if (!this.enabled || !this.ctx) return;
+    const now = this.ctx.currentTime;
+    const osc = this.ctx.createOscillator();
+    const gain = this.ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(1400 + Math.random() * 200, now);
+    osc.frequency.exponentialRampToValueAtTime(800, now + 0.12);
+    gain.gain.setValueAtTime(0.28, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+    osc.connect(gain);
+    gain.connect(this.masterGain || this.ctx.destination);
+    osc.start(now);
+    osc.stop(now + 0.12);
+    this.vibrate(15);
+  }
+
   playBurstChirps(count = 3) {
     if (!this.enabled) return;
     for (let i = 0; i < count; i++) {
@@ -3463,64 +3751,253 @@ class GameState {
 const state = new GameState();
 
 // ===== src/engine/particles.js =====
-// 尘土粒子与墨点视觉特效
+// 水墨气韵 · 天候与氛围粒子引擎 v5 (Atmosphere & Particle Engine)
 class ParticleEngine {
   constructor(container) {
     this.container = container;
+    this.canvas = document.getElementById("dust-canvas");
+    this.ctx = this.canvas ? this.canvas.getContext("2d") : null;
     this.particles = [];
+    this.weatherType = "beat1"; // beat1, beat2, beat3, beat4, beat5, beat6
     this.isRunning = false;
+    this.width = window.innerWidth || 800;
+    this.height = window.innerHeight || 600;
+    this.animId = null;
+    this.lastTime = 0;
+
+    this.initCanvas();
+    if (typeof window !== "undefined" && typeof window.addEventListener === "function") {
+      window.addEventListener("resize", () => this.resize());
+    }
+    if (typeof document !== "undefined" && typeof document.addEventListener === "function") {
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden) {
+          this.stop();
+        } else {
+          this.start();
+        }
+      });
+    }
+  }
+
+  initCanvas() {
+    if (!this.canvas) {
+      this.canvas = document.getElementById("dust-canvas");
+      if (this.canvas) this.ctx = this.canvas.getContext("2d");
+    }
+    this.resize();
+  }
+
+  resize() {
+    if (!this.canvas) return;
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    this.width = window.innerWidth || 800;
+    this.height = window.innerHeight || 600;
+    this.canvas.width = this.width * dpr;
+    this.canvas.height = this.height * dpr;
+    if (this.ctx) {
+      this.ctx.resetTransform?.();
+      this.ctx.scale(dpr, dpr);
+    }
   }
 
   start() {
     if (this.isRunning) return;
     this.isRunning = true;
-    this.createAmbientDust();
+    this.initParticles();
+    this.loop(performance.now());
   }
 
-  createAmbientDust() {
-    if (!this.container) return;
-    this.container.innerHTML = '';
-    const count = 18;
+  stop() {
+    this.isRunning = false;
+    if (this.animId) cancelAnimationFrame(this.animId);
+  }
+
+  setMood(mood) {
+    this.weatherType = mood;
+    this.initParticles();
+  }
+
+  initParticles() {
+    this.particles = [];
+    const count = this.weatherType === "beat4" ? 45 : (this.weatherType === "beat2" ? 28 : 22);
+
     for (let i = 0; i < count; i++) {
-      const p = document.createElement('div');
-      p.className = 'dust-speck';
-      p.style.position = 'absolute';
-      p.style.width = (Math.random() * 3 + 1) + 'px';
-      p.style.height = p.style.width;
-      p.style.backgroundColor = 'rgba(230, 223, 206, ' + (Math.random() * 0.3 + 0.1) + ')';
-      p.style.borderRadius = '50%';
-      p.style.left = (Math.random() * 100) + '%';
-      p.style.top = (Math.random() * 100) + '%';
-      p.style.pointerEvents = 'none';
-      p.style.filter = 'blur(1px)';
-      p.style.animation = 'dustFloat ' + (Math.random() * 6 + 6) + 's infinite ease-in-out ' + (Math.random() * 5) + 's';
-      this.container.appendChild(p);
+      this.particles.push(this.createParticle());
     }
   }
 
-  spawnHitSparks(x, y, text = '破！') {
-    const parent = document.getElementById('battle-fx');
+  createParticle() {
+    const p = {
+      x: Math.random() * this.width,
+      y: Math.random() * this.height,
+      vx: 0,
+      vy: 0,
+      size: 1,
+      alpha: Math.random() * 0.4 + 0.1,
+      baseAlpha: 0.3,
+      pulse: Math.random() * Math.PI * 2,
+      pulseSpeed: Math.random() * 0.04 + 0.02,
+      rotation: Math.random() * Math.PI * 2,
+      vRot: (Math.random() - 0.5) * 0.03,
+      color: "#e6dfce"
+    };
+
+    if (this.weatherType === "beat1") {
+      // 萧瑟秋风浮尘与枯叶墨点
+      p.vx = Math.random() * 0.6 + 0.2;
+      p.vy = Math.random() * 0.4 + 0.1;
+      p.size = Math.random() * 3 + 1.2;
+      p.color = Math.random() > 0.4 ? "rgba(180, 160, 130, " : "rgba(80, 70, 60, ";
+    } else if (this.weatherType === "beat2") {
+      // 古庙微光流萤
+      p.vx = (Math.random() - 0.5) * 0.4;
+      p.vy = (Math.random() - 0.5) * 0.3;
+      p.size = Math.random() * 2.5 + 1.5;
+      p.color = "rgba(235, 205, 110, ";
+      p.baseAlpha = Math.random() * 0.6 + 0.3;
+    } else if (this.weatherType === "beat3") {
+      // 案头融融烛光微粒
+      p.vx = (Math.random() - 0.5) * 0.25;
+      p.vy = -(Math.random() * 0.5 + 0.2); // 向上升腾
+      p.size = Math.random() * 2.8 + 1.0;
+      p.color = "rgba(245, 195, 95, ";
+    } else if (this.weatherType === "beat4") {
+      // 凄风冷雨丝
+      p.vx = -1.5 - Math.random() * 1.0;
+      p.vy = 6.0 + Math.random() * 4.0;
+      p.size = Math.random() * 12 + 8; // 雨丝长度
+      p.color = "rgba(180, 190, 200, ";
+      p.baseAlpha = 0.25;
+    } else if (this.weatherType === "beat5") {
+      // 斗场焦点光尘
+      p.vx = (Math.random() - 0.5) * 0.5;
+      p.vy = (Math.random() - 0.5) * 0.5;
+      p.size = Math.random() * 2.5 + 1;
+      p.color = "rgba(220, 180, 100, ";
+    } else if (this.weatherType === "beat6") {
+      // 宫廷金殿紫气香烟
+      p.vx = Math.random() * 0.3 + 0.1;
+      p.vy = -(Math.random() * 0.3 + 0.1);
+      p.size = Math.random() * 4 + 2;
+      p.color = "rgba(240, 215, 140, ";
+    }
+
+    return p;
+  }
+
+  loop(timestamp) {
+    if (!this.isRunning) return;
+    const dt = Math.min((timestamp - this.lastTime) / 1000, 0.1);
+    this.lastTime = timestamp;
+
+    this.update();
+    this.render();
+
+    this.animId = requestAnimationFrame((t) => this.loop(t));
+  }
+
+  update() {
+    const w = this.width;
+    const h = this.height;
+
+    this.particles.forEach((p) => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.pulse += p.pulseSpeed;
+      p.rotation += p.vRot;
+
+      if (this.weatherType === "beat4") {
+        // 雨丝边界循环
+        if (p.y > h) {
+          p.y = -20;
+          p.x = Math.random() * (w + 100);
+        }
+        if (p.x < -20) p.x = w + 20;
+      } else {
+        // 浮尘流萤漂移
+        if (p.x < -10) p.x = w + 10;
+        if (p.x > w + 10) p.x = -10;
+        if (p.y < -10) p.y = h + 10;
+        if (p.y > h + 10) p.y = -10;
+      }
+    });
+  }
+
+  render() {
+    if (!this.ctx) return;
+    const ctx = this.ctx;
+    ctx.clearRect(0, 0, this.width, this.height);
+
+    this.particles.forEach((p) => {
+      ctx.save();
+      if (this.weatherType === "beat4") {
+        // 绘制冷雨丝
+        ctx.strokeStyle = p.color + p.baseAlpha + ")";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(p.x + p.vx * 1.5, p.y + p.size);
+        ctx.stroke();
+      } else if (this.weatherType === "beat2") {
+        // 绘制呼吸流萤光晕
+        const currentAlpha = Math.max(0.05, p.baseAlpha + Math.sin(p.pulse) * 0.35);
+        const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 3);
+        grad.addColorStop(0, p.color + currentAlpha + ")");
+        grad.addColorStop(0.5, p.color + (currentAlpha * 0.4) + ")");
+        grad.addColorStop(1, p.color + "0)");
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * 3, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        // 绘制水墨微粒与金屑
+        const alpha = Math.max(0.08, p.baseAlpha + Math.sin(p.pulse) * 0.15);
+        ctx.fillStyle = p.color + alpha + ")";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    });
+  }
+
+  spawnHitSparks(x, y, text = "破！") {
+    const parent = document.getElementById("battle-fx") || document.body;
     if (!parent) return;
-    const spark = document.createElement('div');
-    spark.className = 'hit-spark';
+    const spark = document.createElement("div");
+    spark.className = "hit-spark";
     spark.innerText = text;
-    spark.style.left = x + 'px';
-    spark.style.top = y + 'px';
+    spark.style.position = "absolute";
+    spark.style.left = x + "px";
+    spark.style.top = y + "px";
+    spark.style.zIndex = "100";
+    spark.style.pointerEvents = "none";
+    spark.style.fontFamily = "var(--font-kai)";
+    spark.style.fontWeight = "bold";
+    spark.style.color = "#e5b95c";
+    spark.style.textShadow = "0 0 10px rgba(229,185,92,0.8)";
+    spark.style.animation = "sparkFade 0.7s forwards ease-out";
     parent.appendChild(spark);
     setTimeout(() => spark.remove(), 700);
   }
 
-  spawnMusicNote(x, y, glyph = '♪') {
-    const parent = document.getElementById('dance-notes');
+  spawnMusicNote(x, y, glyph = "♪") {
+    const parent = document.getElementById("dance-notes") || document.body;
     if (!parent) return;
     parent.hidden = false;
-    const note = document.createElement('div');
-    note.className = 'music-glyph';
+    const note = document.createElement("div");
+    note.className = "music-glyph";
     note.innerText = glyph;
-    note.style.left = x + 'px';
-    note.style.top = y + 'px';
+    note.style.position = "absolute";
+    note.style.left = x + "px";
+    note.style.top = y + "px";
+    note.style.zIndex = "100";
+    note.style.pointerEvents = "none";
+    note.style.color = "#f4d995";
+    note.style.animation = "noteFloat 1.8s forwards ease-out";
     parent.appendChild(note);
-    setTimeout(() => note.remove(), 2000);
+    setTimeout(() => note.remove(), 1800);
   }
 }
 
@@ -6579,7 +7056,7 @@ class GameController {
   }
 
   init() {
-    const dustContainer = document.getElementById("dust-particles");
+    const dustContainer = document.getElementById("dust-canvas") || document.getElementById("dust-particles");
     this.particleEngine = new ParticleEngine(dustContainer);
     this.particleEngine.start();
 
@@ -6597,11 +7074,35 @@ class GameController {
     window.addEventListener("click", () => this.sound.resume(), { once: true });
 
     this.startBeat(1);
+    this.initPrologueGate();
+  }
+
+  initPrologueGate() {
+    const gate = document.getElementById("prologue-gate");
+    const enterBtn = document.getElementById("btn-enter-story");
+    if (!gate) return;
+
+    const openStory = (e) => {
+      if (e) e.stopPropagation();
+      this.sound.resume();
+      this.sound.playPrologueOpening();
+      gate.classList.add("unfurling");
+      setTimeout(() => {
+        gate.hidden = true;
+        gate.style.display = "none";
+      }, 750);
+    };
+
+    if (enterBtn) {
+      enterBtn.onclick = openStory;
+    } else {
+      gate.onclick = openStory;
+    }
   }
 
   bindHUD() {
     // 模板与代码存在历史命名分歧，按候选 ID 依次解析，
-    // 避免按钮取不到元素时静默失效（此前音/重/谱三个按钮全是死键）
+    // 避免按钮取不到元素时静默失效
     const pickId = (...ids) => {
       for (const id of ids) {
         const el = document.getElementById(id);
@@ -6615,6 +7116,7 @@ class GameController {
     const manualBtn = pickId("manual-btn", "btn-manual");
     const nextBtn = pickId("btn-next", "dialog-next-btn");
     const closeCardBtn = pickId("btn-close-card");
+    const fsBtn = pickId("btn-fullscreen", "fs-btn");
     const narrativePanel = document.getElementById("narrative-panel");
 
     if (soundBtn) {
@@ -6625,6 +7127,31 @@ class GameController {
         soundBtn.innerText = isEnabled ? "声 鸣" : "声 静";
       };
     }
+
+    if (fsBtn) {
+      fsBtn.onclick = (e) => {
+        e.stopPropagation();
+        if (!document.fullscreenElement) {
+          document.documentElement.requestFullscreen?.().catch(() => {});
+          fsBtn.innerText = "⛷ 退出";
+        } else {
+          document.exitFullscreen?.().catch(() => {});
+          fsBtn.innerText = "⛶ 全屏";
+        }
+      };
+    }
+
+    // 评委与二周目快速折目跳转
+    document.querySelectorAll(".beat-node").forEach((node) => {
+      node.onclick = (e) => {
+        e.stopPropagation();
+        const b = parseInt(node.getAttribute("data-beat"), 10);
+        if (b >= 1 && b <= 6) {
+          this.sound.playPaperFlip();
+          this.startBeat(b);
+        }
+      };
+    });
 
     if (manualBtn) {
       manualBtn.onclick = (e) => {
@@ -6658,6 +7185,18 @@ class GameController {
     const handleAdvance = (e) => {
       if (e) e.stopPropagation();
       if (this.isAdvancing) return;
+
+      // 速读跳字保护：如果打字机还在逐字显示，轻点优先立现全句
+      if (this.typewriterTimer) {
+        clearTimeout(this.typewriterTimer);
+        this.typewriterTimer = null;
+        const textEl = document.getElementById("dialog-text");
+        if (textEl && this.currentDialogFullText) {
+          textEl.innerText = this.currentDialogFullText;
+        }
+        return;
+      }
+
       if (this.onDialogNext) {
         this.isAdvancing = true;
         try {
@@ -6864,6 +7403,8 @@ class GameController {
     if (speakerEl) speakerEl.innerText = speaker || "";
     if (btn) btn.innerText = btnText;
 
+    this.currentDialogFullText = text || "";
+
     if (this.typewriterTimer) clearTimeout(this.typewriterTimer);
     if (contentEl) {
       contentEl.innerHTML = "<p id=dialog-text></p>";
@@ -6881,6 +7422,8 @@ class GameController {
           else if (["。", "！", "？", "…"].includes(char)) delay = 150;
 
           this.typewriterTimer = setTimeout(typeNextChar, delay);
+        } else {
+          this.typewriterTimer = null;
         }
       };
 
@@ -6888,6 +7431,28 @@ class GameController {
     }
 
     this.onDialogNext = onNext;
+  }
+
+  spawnMilletGrain(x, y) {
+    const grain = document.createElement("div");
+    grain.className = "millet-grain-fx";
+    grain.style.left = (x || (window.innerWidth / 2)) + "px";
+    grain.style.top = (y || (window.innerHeight * 0.7)) + "px";
+    document.body.appendChild(grain);
+    setTimeout(() => grain.remove(), 600);
+  }
+
+  showToast(msg) {
+    let toast = document.getElementById("cuzhi-toast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.id = "cuzhi-toast";
+      toast.className = "cuzhi-toast";
+      document.body.appendChild(toast);
+    }
+    toast.innerText = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 2200);
   }
 
   showDialogWithInput({ kicker, speaker, text, defaultName, inputHint, btnText, onConfirm }) {
@@ -6961,7 +7526,11 @@ class GameController {
       feedBtn.onclick = (e) => {
         e.stopPropagation();
         fedCount++;
-        sound.playChirp(0.18, 0.25);
+        try {
+          this.sound.playMilletDrop();
+          this.sound.playChirp(0.18, 0.25);
+        } catch (err) {}
+        this.spawnMilletGrain(e.clientX, e.clientY);
         if (feedTip) feedTip.innerText = `点按喂养：${fedCount} / ${maxFeed}`;
 
         if (fedCount >= maxFeed) {
@@ -7076,8 +7645,17 @@ class GameController {
     this.updateBeatProgress(beat);
     this.hideMarginNote();
 
+    if (this.particleEngine) {
+      try {
+        this.particleEngine.setMood("beat" + beat);
+      } catch (e) {}
+    }
+
+    try {
+      this.sound.playBGM("beat" + beat);
+    } catch (e) {}
+
     // 任何一折抛错都不许静默冻死页面：必须可见、可续、可截图上报。
-    // 此前 Beat3 因 showMarginNote 缺失抛 TypeError，玩家只看到空白卡死。
     try {
       if (beat === 1) runBeat1(this);
       else if (beat === 2) runBeat2(this);
@@ -7293,9 +7871,10 @@ class GameController {
       const txt = `我养了一整局的常胜促织，是我儿子。——《聊斋志异 · 促织》【${sealData.title}】`;
       navigator.clipboard?.writeText?.(txt).then(() => {
         if (btn) btn.innerText = "已复制！";
+        this.showToast("已复制聊斋警句至剪贴板");
         setTimeout(() => { if (btn) btn.innerText = "📋 复制文案"; }, 2000);
       }).catch(() => {
-        alert(txt);
+        this.showToast("已提取警句");
       });
     };
   }
