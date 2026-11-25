@@ -6426,11 +6426,38 @@ function runBeat2(controller) {
     }
   }
 
-  function startCatch() {
+  function chooseApproach() {
+    const choice = document.createElement('dialog');
+    choice.id = 'temple-choice';
+    choice.setAttribute('aria-labelledby', 'temple-choice-title');
+    choice.style.cssText = 'width:min(88vw,420px);padding:24px;border:1px solid #a58346;background:#241f19;color:#f6e6ba;font:16px/1.65 serif';
+    choice.innerHTML = '<h2 id="temple-choice-title">草忽然不动了。</h2><p>蹲下等一阵，可以看清哪侧草尖先抖。现在就拨草，能早一步下手，但要自己找准方位。</p><form method="dialog"><button value="watch">屏息看草尖</button> <button value="search">立即拨草</button></form>';
+    for (const button of choice.querySelectorAll('button')) button.style.cssText = 'min-height:44px;padding:6px 12px;font:inherit;cursor:pointer';
+    document.body.appendChild(choice);
+    choice.addEventListener('close', () => {
+      const watch = choice.returnValue === 'watch';
+      choice.remove();
+      startCatch(watch);
+    }, {once:true});
+    choice.showModal();
+  }
+
+  function startCatch(watch) {
     removeRecovery();
     const catchLayer = document.getElementById("catch-layer");
     try {
-      new CatchGame(catchLayer, proceedToInspection).start();
+      const hunt = new CatchGame(catchLayer, proceedToInspection);
+      hunt.start();
+      if (watch && hunt.hintEl) {
+        hunt.hintEl.textContent = '成名伏下来。风过了一阵……';
+        const initialAction = hunt.field.onclick;
+        hunt.field.inert = true;
+        setTimeout(() => {
+          if (hunt.field.onclick !== initialAction) return;
+          hunt.field.inert = false;
+          hunt.hintEl.textContent = (hunt.targetX < hunt.width / 2 ? '左边' : '右边') + '的草尖先动了。轻按那片草。';
+        }, 1500);
+      }
       const catchField = document.getElementById("catch-field");
       if (!catchLayer || catchLayer.hidden || typeof catchField?.onclick !== "function") {
         throw new Error("Catch input unavailable");
@@ -6455,7 +6482,7 @@ function runBeat2(controller) {
     removeRecovery();
     if (idx >= scripts.length) {
       controller.hideDialog();
-      startCatch();
+      chooseApproach();
       return;
     }
     const item = scripts[idx];
